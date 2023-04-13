@@ -29,6 +29,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.LastBaseline
 import androidx.compose.ui.platform.LocalDensity
@@ -38,8 +39,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.r42914lg.chatsandbox.R
-import com.r42914lg.chatsandbox.ui.theme.Purple200
-import com.r42914lg.chatsandbox.ui.theme.Purple700
 import kotlinx.coroutines.launch
 
 @Composable
@@ -90,21 +89,14 @@ fun Messages(
                 .fillMaxSize()
         ) {
             for (index in messages.indices) {
-                val prevAuthor = messages.getOrNull(index - 1)?.author
-                val nextAuthor = messages.getOrNull(index + 1)?.author
+                val prevAuthor = messages.getOrNull(index + 1)?.author
+                val nextAuthor = messages.getOrNull(index - 1)?.author
                 val content = messages[index]
                 val isFirstMessageByAuthor = prevAuthor != content.author
                 val isLastMessageByAuthor = nextAuthor != content.author
 
-                if (index == messages.size - 1) {
-                    item {
-                        DayHeader("20 Aug")
-                    }
-                } else if (index == 2) {
-                    item {
-                        DayHeader("Today")
-                    }
-                }
+                val currMsgDate = messages[index].timestamp.substring(0,5)
+                val nextMsgDate = messages.getOrNull(index + 1)?.timestamp?.substring(0,5)
 
                 item {
                     Message(
@@ -113,6 +105,16 @@ fun Messages(
                         isFirstMessageByAuthor = isFirstMessageByAuthor,
                         isLastMessageByAuthor = isLastMessageByAuthor
                     )
+                }
+
+                if (index == messages.size - 1) {
+                    item {
+                        DayHeader(currMsgDate) // or "Today"
+                    }
+                } else if (currMsgDate != nextMsgDate) {
+                    item {
+                        DayHeader(currMsgDate) // or "Today"
+                    }
                 }
             }
         }
@@ -130,6 +132,22 @@ fun Messages(
                 scrollState.firstVisibleItemIndex != 0 ||
                     scrollState.firstVisibleItemScrollOffset > jumpThreshold
             }
+        }
+
+        // Show the button if the first visible item is not the first one or if the offset is
+        // greater than the threshold.
+        val bottomDividerEnabled by remember {
+            derivedStateOf {
+                scrollState.firstVisibleItemScrollOffset > 0
+            }
+        }
+
+        if (bottomDividerEnabled) {
+            Divider(
+                color = Color.Gray,
+                thickness = 1.dp,
+                modifier = Modifier.align(Alignment.BottomCenter)
+            )
         }
 
         JumpToBottom(
@@ -154,16 +172,17 @@ fun Message(
 ) {
 
     val spaceBetweenAuthors = if (isLastMessageByAuthor) Modifier.padding(top = 8.dp) else Modifier
+
     Row(modifier = spaceBetweenAuthors) {
-        if (isLastMessageByAuthor) {
+        if (isLastMessageByAuthor && !isUserMe) {
             // Avatar
             Image(
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
                     .size(42.dp)
                     .clip(CircleShape)
-                    .align(Alignment.Top),
-                painter = painterResource(id = msg.authorImage),
+                    .align(Alignment.Bottom),
+                painter = painterResource(id = R.drawable.me),
                 contentScale = ContentScale.Crop,
                 contentDescription = null,
             )
@@ -191,11 +210,14 @@ fun AuthorAndTextMessage(
     isLastMessageByAuthor: Boolean,
     modifier: Modifier = Modifier
 ) {
-    Column(modifier = modifier) {
+    Column(
+        modifier = modifier,
+        horizontalAlignment = if (isUserMe) Alignment.End else Alignment.Start
+    ) {
         if (isLastMessageByAuthor) {
             AuthorNameTimestamp(msg)
         }
-        ChatItemBubble(msg, isUserMe/*, authorClicked = authorClicked*/)
+        ChatItemBubble(msg, isUserMe)
         if (isFirstMessageByAuthor) {
             // Last bubble before next author
             Spacer(modifier = Modifier.height(8.dp))
@@ -208,7 +230,6 @@ fun AuthorAndTextMessage(
 
 @Composable
 private fun AuthorNameTimestamp(msg: Message) {
-    // Combine author and timestamp for a11y.
     Row(modifier = Modifier.semantics(mergeDescendants = true) {}) {
         Text(
             text = msg.author,
@@ -224,14 +245,14 @@ private fun AuthorNameTimestamp(msg: Message) {
     }
 }
 
-private val ChatBubbleShape = RoundedCornerShape(4.dp, 20.dp, 20.dp, 20.dp)
+private val ChatBubbleShape = RoundedCornerShape(10.dp, 10.dp, 10.dp, 10.dp)
 
 @Composable
 fun DayHeader(dayString: String) {
     Row(
         modifier = Modifier
             .padding(vertical = 8.dp, horizontal = 16.dp)
-            .height(16.dp)
+            .height(20.dp)
     ) {
         DayHeaderLine()
         Text(
@@ -258,29 +279,20 @@ fun ChatItemBubble(
 ) {
 
     val backgroundBubbleColor = if (isUserMe) {
-        Purple200
+        Color.Blue
     } else {
-        Purple700
+        Color.Gray
     }
 
-    Column {
-        Surface(
-            color = backgroundBubbleColor,
-            shape = ChatBubbleShape
-        ) {
-            ClickableMessage(
-                message = message,
-                isUserMe = isUserMe,
-            )
-        }
-
-        message.image?.let {
-            Spacer(modifier = Modifier.height(4.dp))
-            Surface(
-                color = backgroundBubbleColor,
-                shape = ChatBubbleShape
-            ) {}
-        }
+    Surface(
+        color = backgroundBubbleColor,
+        shape = ChatBubbleShape,
+        modifier = if (isUserMe) Modifier.padding(start = 50.dp) else Modifier.padding(end = 50.dp)
+    ) {
+        ClickableMessage(
+            message = message,
+            isUserMe = isUserMe,
+        )
     }
 }
 

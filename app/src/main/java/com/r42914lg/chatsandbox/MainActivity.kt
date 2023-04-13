@@ -4,9 +4,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.r42914lg.chatsandbox.conversation.ConversationContent
 import com.r42914lg.chatsandbox.conversation.ConversationUiState
 import com.r42914lg.chatsandbox.conversation.initialMessages
@@ -18,7 +20,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             ChatSandboxTheme {
                 Surface(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(top = 50.dp, bottom = 50.dp),
                     color = MaterialTheme.colors.background
                 ) {
                     ConversationContent(uiState = ConversationUiState(initialMessages))
