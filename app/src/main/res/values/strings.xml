@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">ChatSandbox</string>
+    <string name="jumpBottom">jump to bottom</string>
+    <string name="now">now</string>
+    <string name="author_me">me</string>
+    <string name="send">send</string>
+    <string name="textfield_hint">hint</string>
+</resources>
