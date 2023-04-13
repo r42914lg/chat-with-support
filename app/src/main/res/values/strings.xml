@@ -4,5 +4,5 @@
     <string name="now">now</string>
     <string name="author_me">me</string>
     <string name="send">send</string>
-    <string name="textfield_hint">hint</string>
+    <string name="textfield_hint">Сообщение</string>
 </resources>

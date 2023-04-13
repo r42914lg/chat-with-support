@@ -33,7 +33,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.LastBaseline
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalUriHandler
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
@@ -43,14 +42,6 @@ import com.r42914lg.chatsandbox.ui.theme.Purple200
 import com.r42914lg.chatsandbox.ui.theme.Purple700
 import kotlinx.coroutines.launch
 
-/**
- * Entry point for a conversation screen.
- *
- * @param uiState [ConversationUiState] that contains messages to display
- * @param navigateToProfile User action when navigation to a profile is requested
- * @param modifier [Modifier] to apply to this layout node
- * @param onNavIconPressed Sends an event up when the user clicks on the menu
- */
 @Composable
 fun ConversationContent(
     uiState: ConversationUiState,
@@ -82,8 +73,6 @@ fun ConversationContent(
     }
 }
 
-const val ConversationTestTag = "ConversationTestTag"
-
 @Composable
 fun Messages(
     messages: List<Message>,
@@ -98,7 +87,6 @@ fun Messages(
             reverseLayout = true,
             state = scrollState,
             modifier = Modifier
-                .testTag(ConversationTestTag)
                 .fillMaxSize()
         ) {
             for (index in messages.indices) {
