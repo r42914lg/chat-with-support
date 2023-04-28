@@ -24,6 +24,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.LastBaseline
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
@@ -65,6 +66,8 @@ fun ConversationContent(
     }
 }
 
+const val ConversationTestTag = "ConversationTestTag"
+
 @Composable
 fun Messages(
     messages: List<Message>,
@@ -79,6 +82,7 @@ fun Messages(
             reverseLayout = true,
             state = scrollState,
             modifier = Modifier
+                .testTag(ConversationTestTag)
                 .fillMaxSize()
         ) {
             for (index in messages.indices) {
@@ -318,4 +322,4 @@ fun ClickableMessage(
     )
 }
 
-private val JumpToBottomThreshold = 56.dp
+private val JumpToBottomThreshold = 30.dp
