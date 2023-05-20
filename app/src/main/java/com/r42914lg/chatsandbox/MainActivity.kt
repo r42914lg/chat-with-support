@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import com.r42914lg.chatsandbox.conversation.ConversationContent
 import com.r42914lg.chatsandbox.conversation.ConversationUiState
 import com.r42914lg.chatsandbox.conversation.initialMessages
+import com.r42914lg.chatsandbox.slider.ViewPager
 import com.r42914lg.chatsandbox.ui.theme.ChatSandboxTheme
 
 class MainActivity : ComponentActivity() {
@@ -25,7 +26,8 @@ class MainActivity : ComponentActivity() {
                         .padding(top = 50.dp, bottom = 50.dp),
                     color = MaterialTheme.colors.background
                 ) {
-                    ConversationContent(uiState = ConversationUiState(initialMessages))
+                    //ConversationContent(uiState = ConversationUiState(initialMessages))
+                    ViewPager()
                 }
             }
         }
