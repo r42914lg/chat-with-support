@@ -1,7 +1,9 @@
 package com.r42914lg.chatsandbox.picker
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
+import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.os.Build
 import android.webkit.MimeTypeMap
@@ -25,15 +27,25 @@ fun ContentPreview(
     val context = LocalContext.current
     val cR = context.contentResolver
     val mime: MimeTypeMap = MimeTypeMap.getSingleton()
-    fun mimeTypeIsImage(uri: Uri) =
-        mime.getExtensionFromMimeType(cR.getType(uri))?.contains("image") ?: true
+
+    // 0 - other, 1 - image, 2 - video
+    fun checkMimeType(uri: Uri): Int {
+        var retVal = 0
+
+        if (mime.getExtensionFromMimeType(cR.getType(uri)) == "jpg")
+            retVal = 1
+        else if (mime.getExtensionFromMimeType(cR.getType(uri)) == "mp4")
+            retVal = 2
+
+        return retVal
+    }
 
     Column {
         uriList.forEach {
-            //if (mimeTypeIsImage(it))
-                ImageThumbnail(it)
-            //else
-            //    VideoThumbnail(it)
+            when(checkMimeType(it)) {
+                1 -> ImageThumbnail(it)
+                2 -> VideoThumbnail(it)
+            }
         }
     }
 }
@@ -56,3 +68,30 @@ fun ImageThumbnail(
     }
 }
 
+@Composable
+fun VideoThumbnail(
+    uri: Uri
+) {
+    val bitmap =  remember { mutableStateOf<Bitmap?>(null) }
+    val context = LocalContext.current
+
+    fun createVideoThumb(context: Context, uri: Uri): Bitmap? {
+        try {
+            val mediaMetadataRetriever = MediaMetadataRetriever()
+            mediaMetadataRetriever.setDataSource(context, uri)
+
+            return mediaMetadataRetriever.frameAtTime
+        } catch (ex: Exception) {
+            // just suppress
+        }
+        return null
+    }
+
+    bitmap.value = createVideoThumb(context, uri)
+    bitmap.value?.let {  btm ->
+        Image(bitmap = btm.asImageBitmap(),
+            contentDescription =null,
+            modifier = Modifier.size(50.dp))
+    }
+
+}

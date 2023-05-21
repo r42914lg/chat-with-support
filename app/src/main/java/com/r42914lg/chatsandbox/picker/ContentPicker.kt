@@ -3,25 +3,15 @@ package com.r42914lg.chatsandbox.picker
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.size
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -57,42 +47,20 @@ fun ContentPicker(
     onNavigateToViewer: () -> Unit
 ) {
 
-//    var uriList by remember { mutableStateOf<List<Uri>>(listOf()) }
-//    val bitmap =  remember { mutableStateOf<Bitmap?>(null) }
-//    val context = LocalContext.current
-
     val launcher = rememberLauncherForActivityResult(
-        contract = GetMultipleContentsMultipleMimes()
+        contract = ActivityResultContracts.GetMultipleContents()
     ) {
         //uriList = it
         println("LG >>> URI list set ${it.size}")
-//        globalUriList = it
-//        onNavigateToViewer()
+        globalUriList = it
+        onNavigateToViewer()
     }
 
-//    Column() {
-        Button(onClick = {
-            launcher.launch("image/* video/*")
-        }) {
-            Text(text = "Pick image")
-        }
-
-//        Spacer(modifier = Modifier.height(12.dp))
-//
-//
-//        uriList.forEach {
-//
-//            val source = ImageDecoder.createSource(context.contentResolver,it)
-//            bitmap.value = ImageDecoder.decodeBitmap(source)
-//
-//            bitmap.value?.let {  btm ->
-//                Image(bitmap = btm.asImageBitmap(),
-//                    contentDescription =null,
-//                    modifier = Modifier.size(50.dp))
-//            }
-//        }
-//    }
-
+    Button(onClick = {
+        launcher.launch("*/*")
+    }) {
+        Text(text = "Pick image")
+    }
 }
 
 class GetMultipleContentsMultipleMimes : ActivityResultContracts.GetMultipleContents() {
@@ -101,8 +69,8 @@ class GetMultipleContentsMultipleMimes : ActivityResultContracts.GetMultipleCont
         val mimes = input.split(" ")
         return Intent(Intent.ACTION_GET_CONTENT)
             .addCategory(Intent.CATEGORY_OPENABLE)
-            .setType(mimes[0])
-            .putExtra(Intent.EXTRA_MIME_TYPES, arrayOf(mimes))
+            .setType(/*mimes[0]*/"image/*")
+            .putExtra(Intent.EXTRA_MIME_TYPES, /*arrayOf(mimes)*/"video/*")
             .putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
     }
 }
