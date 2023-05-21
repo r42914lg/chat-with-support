@@ -22,43 +22,77 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+
+var globalUriList = listOf<Uri>()
 
 @RequiresApi(Build.VERSION_CODES.P)
 @Composable
-fun ContentPicker() {
-    var uriList by remember { mutableStateOf<List<Uri>>(listOf()) }
-    val bitmap =  remember { mutableStateOf<Bitmap?>(null) }
-    val context = LocalContext.current
+fun MyAppNavHost(
+    modifier: Modifier = Modifier,
+    navController: NavHostController = rememberNavController(),
+    startDestination: String = "picker"
+) {
+    NavHost(
+        modifier = modifier,
+        navController = navController,
+        startDestination = startDestination
+    ) {
+        composable("picker") {
+            ContentPicker(
+                onNavigateToViewer = { navController.navigate("viewer") },
+            )
+        }
+        composable("viewer") { ContentPreview()
+        }
+    }
+}
+
+@RequiresApi(Build.VERSION_CODES.P)
+@Composable
+fun ContentPicker(
+    onNavigateToViewer: () -> Unit
+) {
+
+//    var uriList by remember { mutableStateOf<List<Uri>>(listOf()) }
+//    val bitmap =  remember { mutableStateOf<Bitmap?>(null) }
+//    val context = LocalContext.current
 
     val launcher = rememberLauncherForActivityResult(
         contract = GetMultipleContentsMultipleMimes()
     ) {
-        uriList = it
+        //uriList = it
+        println("LG >>> URI list set ${it.size}")
+//        globalUriList = it
+//        onNavigateToViewer()
     }
 
-    Column() {
+//    Column() {
         Button(onClick = {
             launcher.launch("image/* video/*")
         }) {
             Text(text = "Pick image")
         }
 
-        Spacer(modifier = Modifier.height(12.dp))
+//        Spacer(modifier = Modifier.height(12.dp))
+//
+//
+//        uriList.forEach {
+//
+//            val source = ImageDecoder.createSource(context.contentResolver,it)
+//            bitmap.value = ImageDecoder.decodeBitmap(source)
+//
+//            bitmap.value?.let {  btm ->
+//                Image(bitmap = btm.asImageBitmap(),
+//                    contentDescription =null,
+//                    modifier = Modifier.size(50.dp))
+//            }
+//        }
+//    }
 
-
-        uriList.forEach {
-
-            val source = ImageDecoder.createSource(context.contentResolver,it)
-            bitmap.value = ImageDecoder.decodeBitmap(source)
-
-            bitmap.value?.let {  btm ->
-                Image(bitmap = btm.asImageBitmap(),
-                    contentDescription =null,
-                    modifier = Modifier.size(50.dp))
-            }
-        }
-
-    }
 }
 
 class GetMultipleContentsMultipleMimes : ActivityResultContracts.GetMultipleContents() {
