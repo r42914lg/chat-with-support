@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.r42914lg.chatsandbox.picker.ContentPicker
 import com.r42914lg.chatsandbox.picker.MyAppNavHost
+import com.r42914lg.chatsandbox.slider.DefaultPreview
 import com.r42914lg.chatsandbox.slider.ViewPager
 import com.r42914lg.chatsandbox.ui.theme.ChatSandboxTheme
 
@@ -28,10 +29,11 @@ class MainActivity : ComponentActivity() {
                         .padding(top = 50.dp, bottom = 50.dp),
                     color = MaterialTheme.colors.background
                 ) {
-                    //ConversationContent(uiState = ConversationUiState(initialMessages))
-                    //ViewPager()
-                    //ContentPicker()
-                    MyAppNavHost()
+//                    ConversationContent(uiState = ConversationUiState(initialMessages))
+//                    ViewPager()
+//                    ContentPicker()
+//                    MyAppNavHost()
+                    DefaultPreview()
                 }
             }
         }
