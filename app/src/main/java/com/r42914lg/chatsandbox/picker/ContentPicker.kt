@@ -16,6 +16,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.r42914lg.chatsandbox.slider.ViewPager
 
 var globalUriList = listOf<Uri>()
 
@@ -33,10 +34,14 @@ fun MyAppNavHost(
     ) {
         composable("picker") {
             ContentPicker(
-                onNavigateToViewer = { navController.navigate("viewer") },
+                onNavigateToViewer = { navController.navigate("slider") },
             )
         }
-        composable("viewer") { ContentPreview()
+        composable("viewer") {
+            ContentPreview()
+        }
+        composable("slider") {
+            ViewPager()
         }
     }
 }
@@ -50,8 +55,6 @@ fun ContentPicker(
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetMultipleContents()
     ) {
-        //uriList = it
-        println("LG >>> URI list set ${it.size}")
         globalUriList = it
         onNavigateToViewer()
     }

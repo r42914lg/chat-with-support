@@ -1,52 +1,68 @@
 package com.r42914lg.chatsandbox.slider
 
 import android.net.Uri
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
-import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.ui.StyledPlayerView
-import com.google.android.exoplayer2.upstream.DefaultDataSource
 import com.google.android.exoplayer2.util.MimeTypes
 
 @Composable
 fun VideoPlayer(
-    uri: Uri
+    uri: Uri,
+    page: Int,
+    onPlayerCreated: (page: Int, exoPlayer: ExoPlayer) -> Unit,
 ) {
-    val mContext = LocalContext.current
+    val ctx = LocalContext.current
 
     val mediaItem = MediaItem.Builder()
         .setUri(uri)
         .setMimeType(MimeTypes.APPLICATION_MP4)
         .build()
 
-    val mediaSource = ProgressiveMediaSource.Factory(DefaultDataSource.Factory(mContext))
-        .createMediaSource(mediaItem)
-
-    val mExoPlayer = remember(mContext) {
-        ExoPlayer.Builder(mContext).build().apply {
-            setMediaSource(mediaSource)
-            playWhenReady = true
+    val exoPlayer = remember(uri) {
+        ExoPlayer.Builder(ctx).build().apply {
+            setMediaItem(mediaItem)
+            playWhenReady = false
             seekTo(0, 0L)
             prepare()
+            onPlayerCreated(page, this)
         }
     }
 
-    AndroidView(
-        factory = {
-                context -> StyledPlayerView(context).apply {
-                    player = mExoPlayer
+    val lifecycleOwner = rememberUpdatedState(LocalLifecycleOwner.current)
+
+    DisposableEffect(
+        AndroidView(factory = {
+            StyledPlayerView(it).apply {
+                player = exoPlayer
+            }
+        })
+    ) {
+        val observer = LifecycleEventObserver { _, event ->
+            when (event) {
+                Lifecycle.Event.ON_PAUSE -> {
+                    exoPlayer.pause()
                 }
+                Lifecycle.Event.ON_RESUME -> {
+                    exoPlayer.play()
+                }
+                else -> {}
+            }
         }
-    )
+        val lifecycle = lifecycleOwner.value.lifecycle
+        lifecycle.addObserver(observer)
+
+        onDispose {
+            exoPlayer.stop()
+            exoPlayer.release()
+        }
+    }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    VideoPlayer(Uri.parse("https://storage.googleapis.com/exoplayer-test-media-0/BigBuckBunny_320x180.mp4"))
-}
+

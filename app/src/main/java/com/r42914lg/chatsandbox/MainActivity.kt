@@ -11,10 +11,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.r42914lg.chatsandbox.picker.ContentPicker
 import com.r42914lg.chatsandbox.picker.MyAppNavHost
-import com.r42914lg.chatsandbox.slider.DefaultPreview
-import com.r42914lg.chatsandbox.slider.ViewPager
 import com.r42914lg.chatsandbox.ui.theme.ChatSandboxTheme
 
 class MainActivity : ComponentActivity() {
@@ -32,8 +29,7 @@ class MainActivity : ComponentActivity() {
 //                    ConversationContent(uiState = ConversationUiState(initialMessages))
 //                    ViewPager()
 //                    ContentPicker()
-//                    MyAppNavHost()
-                    DefaultPreview()
+                    MyAppNavHost()
                 }
             }
         }
