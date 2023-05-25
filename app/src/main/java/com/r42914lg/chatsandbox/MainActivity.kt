@@ -26,9 +26,6 @@ class MainActivity : ComponentActivity() {
                         .padding(top = 50.dp, bottom = 50.dp),
                     color = MaterialTheme.colors.background
                 ) {
-//                    ConversationContent(uiState = ConversationUiState(initialMessages))
-//                    ViewPager()
-//                    ContentPicker()
                     MyAppNavHost()
                 }
             }
