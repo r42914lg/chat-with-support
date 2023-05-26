@@ -20,7 +20,7 @@ import com.r42914lg.chatsandbox.ui.theme.Purple200
 
 private enum class Visibility {
     VISIBLE,
-    GONE
+    GONE,
 }
 
 /**
@@ -30,12 +30,12 @@ private enum class Visibility {
 fun JumpToBottom(
     enabled: Boolean,
     onClicked: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     // Show Jump to Bottom button
     val transition = updateTransition(
         if (enabled) Visibility.VISIBLE else Visibility.GONE,
-        label = "JumpToBottom visibility animation"
+        label = "JumpToBottom visibility animation",
     )
     val bottomOffset by transition.animateDp(label = "JumpToBottom offset animation") {
         if (it == Visibility.GONE) {
@@ -50,7 +50,7 @@ fun JumpToBottom(
                 Icon(
                     imageVector = Icons.Filled.Info,
                     modifier = Modifier.height(18.dp),
-                    contentDescription = null
+                    contentDescription = null,
                 )
             },
             text = {
@@ -60,7 +60,7 @@ fun JumpToBottom(
             contentColor = Purple200,
             modifier = modifier
                 .offset(x = 0.dp, y = -bottomOffset)
-                .height(36.dp)
+                .height(36.dp),
         )
     }
 }

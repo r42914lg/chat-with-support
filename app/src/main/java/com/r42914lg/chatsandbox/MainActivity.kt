@@ -24,7 +24,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(top = 50.dp, bottom = 50.dp),
-                    color = MaterialTheme.colors.background
+                    color = MaterialTheme.colors.background,
                 ) {
                     MyAppNavHost()
                 }

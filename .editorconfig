@@ -1,0 +1,6 @@
+[*.{kt,kts}]
+#disabled_rules=no-wildcard-imports,experimental:annotation,indent
+#ktlint_no-wildcard-imports = disabled
+ktlint_standard_no-wildcard-imports = disabled
+ktlint_standard_multiline-if-else = disabled
+ktlint_standard_filename = disabled

@@ -25,9 +25,8 @@ import com.r42914lg.chatsandbox.picker.globalUriList
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ViewPager(
-    uriList: List<Uri> = globalUriList
+    uriList: List<Uri> = globalUriList,
 ) {
-
     val ctx = LocalContext.current
     val cR = ctx.contentResolver
     val mime: MimeTypeMap = MimeTypeMap.getSingleton()
@@ -70,18 +69,18 @@ fun ViewPager(
         beyondBoundsPageCount = uriList.size - 1,
     ) { page ->
 
-        Box(modifier = Modifier
-            .fillMaxSize()
-            .background(Color.Gray),
-            contentAlignment = Alignment.Center
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Gray),
+            contentAlignment = Alignment.Center,
         ) {
             val uri = uriList[page]
-            when(checkMimeType(uri)) {
+            when (checkMimeType(uri)) {
                 0 -> Text("Preview not supported")
                 1 -> ImageView(uri)
                 2 -> VideoPlayer(uri, page, ::onPlayerCreated)
             }
         }
-
     }
 }

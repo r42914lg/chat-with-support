@@ -42,7 +42,7 @@ fun ContentPreview(
 
     Column {
         uriList.forEach {
-            when(checkMimeType(it)) {
+            when (checkMimeType(it)) {
                 1 -> ImageThumbnail(it)
                 2 -> VideoThumbnail(it)
             }
@@ -53,26 +53,28 @@ fun ContentPreview(
 @RequiresApi(Build.VERSION_CODES.P)
 @Composable
 fun ImageThumbnail(
-    uri: Uri
+    uri: Uri,
 ) {
-    val bitmap =  remember { mutableStateOf<Bitmap?>(null) }
+    val bitmap = remember { mutableStateOf<Bitmap?>(null) }
     val context = LocalContext.current
 
     val source = ImageDecoder.createSource(context.contentResolver, uri)
     bitmap.value = ImageDecoder.decodeBitmap(source)
 
-    bitmap.value?.let {  btm ->
-        Image(bitmap = btm.asImageBitmap(),
-            contentDescription =null,
-            modifier = Modifier.size(50.dp))
+    bitmap.value?.let { btm ->
+        Image(
+            bitmap = btm.asImageBitmap(),
+            contentDescription = null,
+            modifier = Modifier.size(50.dp),
+        )
     }
 }
 
 @Composable
 fun VideoThumbnail(
-    uri: Uri
+    uri: Uri,
 ) {
-    val bitmap =  remember { mutableStateOf<Bitmap?>(null) }
+    val bitmap = remember { mutableStateOf<Bitmap?>(null) }
     val context = LocalContext.current
 
     fun createVideoThumb(context: Context, uri: Uri): Bitmap? {
@@ -88,10 +90,11 @@ fun VideoThumbnail(
     }
 
     bitmap.value = createVideoThumb(context, uri)
-    bitmap.value?.let {  btm ->
-        Image(bitmap = btm.asImageBitmap(),
-            contentDescription =null,
-            modifier = Modifier.size(50.dp))
+    bitmap.value?.let { btm ->
+        Image(
+            bitmap = btm.asImageBitmap(),
+            contentDescription = null,
+            modifier = Modifier.size(50.dp),
+        )
     }
-
 }

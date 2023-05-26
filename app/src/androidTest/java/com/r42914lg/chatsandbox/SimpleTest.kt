@@ -41,7 +41,7 @@ class ConversationTest {
             this.swipe(
                 start = this.center,
                 end = Offset(this.center.x, this.center.y + 500),
-                durationMillis = 1000
+                durationMillis = 1000,
             )
         }
         // Check that the jump to bottom button is shown
@@ -55,7 +55,7 @@ class ConversationTest {
             this.swipe(
                 start = this.center,
                 end = Offset(this.center.x, this.center.y + 500),
-                durationMillis = 1000
+                durationMillis = 1000,
             )
         }
         // Snap scroll to the bottom
@@ -68,7 +68,6 @@ class ConversationTest {
     private fun findJumpToBottom() =
         composeTestRule.onNodeWithText(
             composeTestRule.activity.getString(R.string.jumpBottom),
-            useUnmergedTree = true
+            useUnmergedTree = true,
         )
-
 }

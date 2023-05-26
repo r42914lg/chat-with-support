@@ -25,12 +25,12 @@ var globalUriList = listOf<Uri>()
 fun MyAppNavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
-    startDestination: String = "picker"
+    startDestination: String = "picker",
 ) {
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = startDestination
+        startDestination = startDestination,
     ) {
         composable("picker") {
             ContentPicker(
@@ -49,11 +49,10 @@ fun MyAppNavHost(
 @RequiresApi(Build.VERSION_CODES.P)
 @Composable
 fun ContentPicker(
-    onNavigateToViewer: () -> Unit
+    onNavigateToViewer: () -> Unit,
 ) {
-
     val launcher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.GetMultipleContents()
+        contract = ActivityResultContracts.GetMultipleContents(),
     ) {
         globalUriList = it
         onNavigateToViewer()
@@ -72,8 +71,8 @@ class GetMultipleContentsMultipleMimes : ActivityResultContracts.GetMultipleCont
         val mimes = input.split(" ")
         return Intent(Intent.ACTION_GET_CONTENT)
             .addCategory(Intent.CATEGORY_OPENABLE)
-            .setType(/*mimes[0]*/"image/*")
-            .putExtra(Intent.EXTRA_MIME_TYPES, /*arrayOf(mimes)*/"video/*")
+            .setType(mimes[0])
+            .putExtra(Intent.EXTRA_MIME_TYPES, arrayOf(mimes))
             .putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
     }
 }

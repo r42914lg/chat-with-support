@@ -1,7 +1,7 @@
 package com.r42914lg.chatsandbox
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
@@ -43,7 +43,6 @@ class ChatActivity : AppCompatActivity() {
         _socket!!.connect()
 
         lifecycleScope.launch {
-
             var waitTime = 0
             while (!_socket!!.connected() && waitTime < SOCKET_CONNECT_LIMIT) {
                 delay(100)
@@ -51,9 +50,9 @@ class ChatActivity : AppCompatActivity() {
             }
 
             if (_socket!!.connected())
-                // connected
+            // connected
             else {
-                //not connected
+                // not connected
             }
         }
     }

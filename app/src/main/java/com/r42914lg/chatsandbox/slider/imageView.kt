@@ -15,17 +15,18 @@ import androidx.compose.ui.platform.LocalContext
 @RequiresApi(Build.VERSION_CODES.P)
 @Composable
 fun ImageView(
-    uri: Uri
+    uri: Uri,
 ) {
-    val bitmap =  remember { mutableStateOf<Bitmap?>(null) }
+    val bitmap = remember { mutableStateOf<Bitmap?>(null) }
     val context = LocalContext.current
 
     val source = ImageDecoder.createSource(context.contentResolver, uri)
     bitmap.value = ImageDecoder.decodeBitmap(source)
 
-    bitmap.value?.let {  btm ->
-        Image(bitmap = btm.asImageBitmap(),
-            contentDescription =null,
+    bitmap.value?.let { btm ->
+        Image(
+            bitmap = btm.asImageBitmap(),
+            contentDescription = null,
         )
     }
 }
