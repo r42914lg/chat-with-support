@@ -13,7 +13,6 @@ class MyApp : Application() {
         super.onCreate()
 
         _socket = try {
-
             val uri = URI.create(ROOT_CHAT)
             val options = IO.Options.builder()
                 .setPath(PATH_CHAT)
@@ -22,7 +21,6 @@ class MyApp : Application() {
                 .build()
 
             IO.socket(uri, options)
-
         } catch (e: URISyntaxException) {
             throw RuntimeException(e)
         }
@@ -36,5 +34,4 @@ class MyApp : Application() {
         const val ROOT_CHAT = "https://prod.chat.com/chat"
         const val PATH_CHAT = "/messaging/socket.io"
     }
-
 }

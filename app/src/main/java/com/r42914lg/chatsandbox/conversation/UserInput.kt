@@ -38,7 +38,6 @@ fun UserInput(
     modifier: Modifier = Modifier,
     resetScroll: () -> Unit = {},
 ) {
-
     val keyboardController = LocalSoftwareKeyboardController.current
 
     var textState by rememberSaveable(stateSaver = TextFieldValue.Saver) {
@@ -49,9 +48,8 @@ fun UserInput(
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier
+        modifier = modifier,
     ) {
-
         Spacer(modifier = Modifier.width(16.dp))
 
         UserInputText(
@@ -64,7 +62,7 @@ fun UserInput(
                 }
                 textFieldFocusState = focused
             },
-            focusState = textFieldFocusState
+            focusState = textFieldFocusState,
         )
 
         Spacer(modifier = Modifier.width(8.dp))
@@ -83,7 +81,7 @@ fun UserInput(
                             keyboardController?.hide()
                             textFieldFocusState = false
                         }
-                    }
+                    },
             )
         }
 
@@ -99,10 +97,9 @@ private fun UserInputText(
     onTextChanged: (TextFieldValue) -> Unit,
     textFieldValue: TextFieldValue,
     onTextFieldFocused: (Boolean) -> Unit,
-    focusState: Boolean
+    focusState: Boolean,
 ) {
     Box(modifier = modifier) {
-
         val focusRequester = remember { FocusRequester() }
         val focusManager = LocalFocusManager.current
 
@@ -115,7 +112,7 @@ private fun UserInputText(
                 .focusRequester(focusRequester)
                 .background(
                     color = GreyBackground,
-                    shape = RoundedCornerShape(20.dp)
+                    shape = RoundedCornerShape(20.dp),
                 )
                 .wrapContentHeight()
                 .fillMaxWidth()
@@ -129,10 +126,10 @@ private fun UserInputText(
                 },
             keyboardOptions = KeyboardOptions(
                 keyboardType = keyboardType,
-                imeAction = ImeAction.Send
+                imeAction = ImeAction.Send,
             ),
             cursorBrush = SolidColor(LocalContentColor.current),
-            textStyle = LocalTextStyle.current.copy(color = LocalContentColor.current)
+            textStyle = LocalTextStyle.current.copy(color = LocalContentColor.current),
         )
 
         if (!focusState)

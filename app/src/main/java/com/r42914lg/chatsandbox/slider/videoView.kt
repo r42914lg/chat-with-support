@@ -42,7 +42,7 @@ fun VideoPlayer(
             StyledPlayerView(it).apply {
                 player = exoPlayer
             }
-        })
+        }),
     ) {
         val observer = LifecycleEventObserver { _, event ->
             when (event) {
@@ -64,5 +64,3 @@ fun VideoPlayer(
         }
     }
 }
-
-

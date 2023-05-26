@@ -42,19 +42,20 @@ fun ConversationContent(
     val scrollState = rememberLazyListState()
     val scope = rememberCoroutineScope()
 
-    Column(Modifier
-        .fillMaxSize()
-        .imePadding()
+    Column(
+        Modifier
+            .fillMaxSize()
+            .imePadding(),
     ) {
         Messages(
             messages = uiState.messages,
             modifier = Modifier.weight(1f),
-            scrollState = scrollState
+            scrollState = scrollState,
         )
         UserInput(
             onMessageSent = { content ->
                 uiState.addMessage(
-                    Message(authorMe, content, timeNow)
+                    Message(authorMe, content, timeNow),
                 )
             },
             resetScroll = {
@@ -72,18 +73,17 @@ const val ConversationTestTag = "ConversationTestTag"
 fun Messages(
     messages: List<Message>,
     scrollState: LazyListState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val scope = rememberCoroutineScope()
     Box(modifier = modifier) {
-
         val authorMe = stringResource(id = R.string.author_me)
         LazyColumn(
             reverseLayout = true,
             state = scrollState,
             modifier = Modifier
                 .testTag(ConversationTestTag)
-                .fillMaxSize()
+                .fillMaxSize(),
         ) {
             for (index in messages.indices) {
                 val prevAuthor = messages.getOrNull(index + 1)?.author
@@ -92,15 +92,15 @@ fun Messages(
                 val isFirstMessageByAuthor = prevAuthor != content.author
                 val isLastMessageByAuthor = nextAuthor != content.author
 
-                val currMsgDate = messages[index].timestamp.substring(0,5)
-                val nextMsgDate = messages.getOrNull(index + 1)?.timestamp?.substring(0,5)
+                val currMsgDate = messages[index].timestamp.substring(0, 5)
+                val nextMsgDate = messages.getOrNull(index + 1)?.timestamp?.substring(0, 5)
 
                 item {
                     Message(
                         msg = content,
                         isUserMe = content.author == authorMe,
                         isFirstMessageByAuthor = isFirstMessageByAuthor,
-                        isLastMessageByAuthor = isLastMessageByAuthor
+                        isLastMessageByAuthor = isLastMessageByAuthor,
                     )
                 }
 
@@ -143,7 +143,7 @@ fun Messages(
             Divider(
                 color = Color.Gray,
                 thickness = 1.dp,
-                modifier = Modifier.align(Alignment.BottomCenter)
+                modifier = Modifier.align(Alignment.BottomCenter),
             )
         }
 
@@ -155,7 +155,7 @@ fun Messages(
                     scrollState.animateScrollToItem(0)
                 }
             },
-            modifier = Modifier.align(Alignment.BottomCenter)
+            modifier = Modifier.align(Alignment.BottomCenter),
         )
     }
 }
@@ -165,9 +165,8 @@ fun Message(
     msg: Message,
     isUserMe: Boolean,
     isFirstMessageByAuthor: Boolean,
-    isLastMessageByAuthor: Boolean
+    isLastMessageByAuthor: Boolean,
 ) {
-
     val spaceBetweenAuthors = if (isLastMessageByAuthor) Modifier.padding(top = 8.dp) else Modifier
 
     Row(modifier = spaceBetweenAuthors) {
@@ -194,7 +193,7 @@ fun Message(
             isLastMessageByAuthor = isLastMessageByAuthor,
             modifier = Modifier
                 .padding(end = 16.dp)
-                .weight(1f)
+                .weight(1f),
         )
     }
 }
@@ -205,11 +204,11 @@ fun AuthorAndTextMessage(
     isUserMe: Boolean,
     isFirstMessageByAuthor: Boolean,
     isLastMessageByAuthor: Boolean,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier,
-        horizontalAlignment = if (isUserMe) Alignment.End else Alignment.Start
+        horizontalAlignment = if (isUserMe) Alignment.End else Alignment.Start,
     ) {
         if (isLastMessageByAuthor) {
             AuthorNameTimestamp(msg)
@@ -232,7 +231,7 @@ private fun AuthorNameTimestamp(msg: Message) {
             text = msg.author,
             modifier = Modifier
                 .alignBy(LastBaseline)
-                .paddingFrom(LastBaseline, after = 8.dp) // Space to 1st bubble
+                .paddingFrom(LastBaseline, after = 8.dp), // Space to 1st bubble
         )
         Spacer(modifier = Modifier.width(8.dp))
         Text(
@@ -249,7 +248,7 @@ fun DayHeader(dayString: String) {
     Row(
         modifier = Modifier
             .padding(vertical = 8.dp, horizontal = 16.dp)
-            .height(20.dp)
+            .height(20.dp),
     ) {
         DayHeaderLine()
         Text(
@@ -274,7 +273,6 @@ fun ChatItemBubble(
     message: Message,
     isUserMe: Boolean,
 ) {
-
     val backgroundBubbleColor = if (isUserMe) {
         Color.Blue
     } else {
@@ -284,7 +282,7 @@ fun ChatItemBubble(
     Surface(
         color = backgroundBubbleColor,
         shape = ChatBubbleShape,
-        modifier = if (isUserMe) Modifier.padding(start = 50.dp) else Modifier.padding(end = 50.dp)
+        modifier = if (isUserMe) Modifier.padding(start = 50.dp) else Modifier.padding(end = 50.dp),
     ) {
         ClickableMessage(
             message = message,
@@ -302,7 +300,7 @@ fun ClickableMessage(
 
     val styledMessage = messageFormatter(
         text = message.content,
-        primary = isUserMe
+        primary = isUserMe,
     )
 
     ClickableText(
@@ -318,7 +316,7 @@ fun ClickableMessage(
                         else -> Unit
                     }
                 }
-        }
+        },
     )
 }
 

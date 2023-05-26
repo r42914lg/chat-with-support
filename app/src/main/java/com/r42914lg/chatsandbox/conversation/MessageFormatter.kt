@@ -24,6 +24,7 @@ enum class SymbolAnnotationType {
     PERSON, LINK
 }
 typealias StringAnnotation = AnnotatedString.Range<String>
+
 // Pair returning styled content and annotation for ClickableText when matching syntax token
 typealias SymbolAnnotation = Pair<AnnotatedString, StringAnnotation?>
 
@@ -42,12 +43,11 @@ typealias SymbolAnnotation = Pair<AnnotatedString, StringAnnotation?>
 @Composable
 fun messageFormatter(
     text: String,
-    primary: Boolean
+    primary: Boolean,
 ): AnnotatedString {
     val tokens = symbolPattern.findAll(text)
 
     return buildAnnotatedString {
-
         var cursorPosition = 0
 
         val codeSnippetBackground =
@@ -63,7 +63,7 @@ fun messageFormatter(
             val (annotatedString, stringAnnotation) = getSymbolAnnotation(
                 matchResult = token,
                 primary = primary,
-                codeSnippetBackground = codeSnippetBackground
+                codeSnippetBackground = codeSnippetBackground,
             )
             append(annotatedString)
 
@@ -92,7 +92,7 @@ fun messageFormatter(
 private fun getSymbolAnnotation(
     matchResult: MatchResult,
     primary: Boolean,
-    codeSnippetBackground: Color
+    codeSnippetBackground: Color,
 ): SymbolAnnotation {
     return when (matchResult.value.first()) {
         '@' -> SymbolAnnotation(
@@ -100,36 +100,36 @@ private fun getSymbolAnnotation(
                 text = matchResult.value,
                 spanStyle = SpanStyle(
                     color = if (primary) Color.Cyan else Color.Blue,
-                    fontWeight = FontWeight.Bold
-                )
+                    fontWeight = FontWeight.Bold,
+                ),
             ),
             StringAnnotation(
                 item = matchResult.value.substring(1),
                 start = matchResult.range.first,
                 end = matchResult.range.last,
-                tag = SymbolAnnotationType.PERSON.name
-            )
+                tag = SymbolAnnotationType.PERSON.name,
+            ),
         )
         '*' -> SymbolAnnotation(
             AnnotatedString(
                 text = matchResult.value.trim('*'),
-                spanStyle = SpanStyle(fontWeight = FontWeight.Bold)
+                spanStyle = SpanStyle(fontWeight = FontWeight.Bold),
             ),
-            null
+            null,
         )
         '_' -> SymbolAnnotation(
             AnnotatedString(
                 text = matchResult.value.trim('_'),
-                spanStyle = SpanStyle(fontStyle = FontStyle.Italic)
+                spanStyle = SpanStyle(fontStyle = FontStyle.Italic),
             ),
-            null
+            null,
         )
         '~' -> SymbolAnnotation(
             AnnotatedString(
                 text = matchResult.value.trim('~'),
-                spanStyle = SpanStyle(textDecoration = TextDecoration.LineThrough)
+                spanStyle = SpanStyle(textDecoration = TextDecoration.LineThrough),
             ),
-            null
+            null,
         )
         '`' -> SymbolAnnotation(
             AnnotatedString(
@@ -138,24 +138,24 @@ private fun getSymbolAnnotation(
                     fontFamily = FontFamily.Monospace,
                     fontSize = 12.sp,
                     background = codeSnippetBackground,
-                    baselineShift = BaselineShift(0.2f)
-                )
+                    baselineShift = BaselineShift(0.2f),
+                ),
             ),
-            null
+            null,
         )
         'h' -> SymbolAnnotation(
             AnnotatedString(
                 text = matchResult.value,
                 spanStyle = SpanStyle(
-                    color = if (primary) Color.Cyan else Color.Blue
-                )
+                    color = if (primary) Color.Cyan else Color.Blue,
+                ),
             ),
             StringAnnotation(
                 item = matchResult.value,
                 start = matchResult.range.first,
                 end = matchResult.range.last,
-                tag = SymbolAnnotationType.LINK.name
-            )
+                tag = SymbolAnnotationType.LINK.name,
+            ),
         )
         else -> SymbolAnnotation(AnnotatedString(matchResult.value), null)
     }
