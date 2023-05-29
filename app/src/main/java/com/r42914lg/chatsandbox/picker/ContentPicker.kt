@@ -16,7 +16,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.r42914lg.chatsandbox.slider.ViewPager
+import com.r42914lg.slider.ViewPager
 
 var globalUriList = listOf<Uri>()
 
@@ -41,7 +41,7 @@ fun MyAppNavHost(
             ContentPreview()
         }
         composable("slider") {
-            ViewPager()
+            ViewPager(globalUriList)
         }
     }
 }
