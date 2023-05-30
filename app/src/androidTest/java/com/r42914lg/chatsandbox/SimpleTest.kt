@@ -45,7 +45,7 @@ class ConversationTest {
             )
         }
         // Check that the jump to bottom button is shown
-        findJumpToBottom().assertDoesNotExist()
+        findJumpToBottom().assertIsDisplayed()
     }
 
     @Test
