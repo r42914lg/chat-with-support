@@ -1,4 +1,4 @@
-name: PR_lint_and_unit_tests
+name: PR_unit_tests
 
 on:
   pull_request:
