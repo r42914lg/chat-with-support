@@ -1,4 +1,4 @@
-name: PR_lint_and_unit_tests
+name: PR_unit_tests
 
 on:
   pull_request:
@@ -8,7 +8,7 @@ on:
 jobs:
   Unit-test:
     name: Run unit tests on PR in main
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
