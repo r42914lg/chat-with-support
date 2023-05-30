@@ -9,7 +9,7 @@ plugins {
     id 'org.jetbrains.kotlin.android' version '1.8.10' apply false
 }
 
-apply plugin: "java"
+//apply plugin: "java"
 
 configurations {
     ktlint
@@ -44,7 +44,7 @@ task ktlintFormat(type: JavaExec, group: "formatting") {
     args "-F", "app/src/**/*.kt", "**.kts", "!**/build/**"
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
-}
+//java {
+//    sourceCompatibility = JavaVersion.VERSION_1_8
+//    targetCompatibility = JavaVersion.VERSION_1_8
+//}
