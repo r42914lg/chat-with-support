@@ -55,7 +55,7 @@ class ConversationTest {
             this.swipe(
                 start = this.center,
                 end = Offset(this.center.x, this.center.y + 500),
-                durationMillis = 1001,
+                durationMillis = 1002,
             )
         }
         // Snap scroll to the bottom
