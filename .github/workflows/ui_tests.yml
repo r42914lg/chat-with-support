@@ -6,7 +6,7 @@ on:
       - 'main'
 
 jobs:
-  Unit-test:
+  test:
     name: Run UI tests on PR in main
     runs-on: macos-11
     steps:
