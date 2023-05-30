@@ -9,6 +9,8 @@ plugins {
     id 'org.jetbrains.kotlin.android' version '1.8.10' apply false
 }
 
+apply plugin: "java"
+
 configurations {
     ktlint
 }
@@ -40,4 +42,9 @@ task ktlintFormat(type: JavaExec, group: "formatting") {
     mainClass = "com.pinterest.ktlint.Main"
     jvmArgs "--add-opens=java.base/java.lang=ALL-UNNAMED"
     args "-F", "app/src/**/*.kt", "**.kts", "!**/build/**"
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
