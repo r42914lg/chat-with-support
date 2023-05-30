@@ -9,6 +9,8 @@ plugins {
     id 'org.jetbrains.kotlin.android' version '1.8.10' apply false
 }
 
+apply plugin: "java"
+
 configurations {
     ktlint
 }
@@ -32,6 +34,8 @@ task ktlint(type: JavaExec, group: "verification") {
     jvmArgs "--add-opens=java.base/java.lang=ALL-UNNAMED"
     args "app/src/**/*.kt", "**.kts", "!**/build/**"
 }
+
+check.dependsOn ktlint
 
 task ktlintFormat(type: JavaExec, group: "formatting") {
     group = "formatting"
