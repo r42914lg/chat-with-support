@@ -37,7 +37,7 @@ jobs:
           merge_branch_name=${GITHUB_REF}
           echo "Tagging release with tag $version_name"
           git tag $version_name
-          git push origin --tags
+          git push
       
       - name: Create service_account.json
         run: echo '${{ secrets.SERVICE_ACCOUNT }}' > service_account.json
