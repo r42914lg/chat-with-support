@@ -47,3 +47,4 @@ jobs:
           packageName: com.r42914lg.chatsandbox
           releaseFiles: app/build/outputs/bundle/release/app-release.aab
           track: internal
+          status: darf
