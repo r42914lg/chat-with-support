@@ -33,7 +33,7 @@ jobs:
           
       - name: Tag Release
         run: |
-          version_name=v1.9.9
+          version_name=v.1.0.2
           echo "Tagging release with tag $version_name"
           git tag $version_name release/$version_name
           git push origin --tags
