@@ -8,18 +8,31 @@ on:
 permissions: write-all
 
 jobs:
-  build_and_tag:
+  smoke_test:
     if: startsWith(github.head_ref, 'releaze/') == true
+    name: Run UI tests on PR in main
+    runs-on: macos-11
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+      - uses: actions/setup-java@v1
+        with: {java-version: 11}
+      - name: run tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 29
+          script: ./gradlew connectedCheck
+          
+  tag:
     name: Build release artifacts
     runs-on: ubuntu-latest
+    needs: [smoke_test]
+    if: ${{ always() && contains(join(needs.*.result, ','), 'success') }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-java@v1
         with: {java-version: 11}
-                  
-      - name: Run static checks
-        run: ./gradlew check    
-          
+                    
       - name: Tag Release
         run: |
           branch_name=${GITHUB_HEAD_REF}
