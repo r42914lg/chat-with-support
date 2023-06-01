@@ -1,0 +1,21 @@
+name: Deploy_on_push_to_master
+
+on:
+  push:
+    branches:
+      - 'release'
+
+jobs:
+  build_apk_aab:
+    name: Build release artifacts
+    runs-on: ubuntu-latest
+    steps:
+    
+      - name: Deploy to Internal track
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJson: service_account.json
+          packageName: com.r42914lg.chatsandbox
+          releaseFiles: app/build/outputs/bundle/release/app-release.aab
+          track: internal
+          status: draft
