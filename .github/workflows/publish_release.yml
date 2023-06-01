@@ -39,9 +39,9 @@ jobs:
           version_name=${GITHUB_HEAD_REF##*/}
           echo "Head branch name: $branch_name"
           echo "Head version: $version_name"
-          #echo "Tagging release with tag $version_name"
-          #git tag $version_name release/$version_name
-          #git push origin --tags
+          echo "Tagging release with tag $version_name"
+          git tag $version_name
+          git push origin --tags
       
       - name: Create service_account.json
         run: echo '${{ secrets.SERVICE_ACCOUNT }}' > service_account.json
