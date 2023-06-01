@@ -40,7 +40,7 @@ jobs:
           echo "Head branch name: $branch_name"
           echo "Head version: $version_name"
           #echo "Tagging release with tag $version_name"
-          #git tag $version_name
+          #git tag $version_name $branch_name
           #git push origin --tags
       
       - name: Create service_account.json
