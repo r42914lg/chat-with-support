@@ -12,7 +12,7 @@ env:
 
 jobs:
   build_apk_aab:
-    if: startsWith(github.ref, 'releaze/') == true
+    #if: startsWith(github.ref, 'releaze/') == true
     name: Build release artifacts
     runs-on: ubuntu-latest
     steps:
