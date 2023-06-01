@@ -8,7 +8,7 @@ on:
 permissions: write-all
 
 jobs:
-  build_apk_aab:
+  build_and_tag:
     if: startsWith(github.head_ref, 'releaze/') == true
     name: Build release artifacts
     runs-on: ubuntu-latest
