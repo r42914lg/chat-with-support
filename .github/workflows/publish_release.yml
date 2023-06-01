@@ -37,10 +37,12 @@ jobs:
           branch_original=${GITHUB_HEAD_REF}
           version_name1=${GITHUB_REF##*/}
           version_name2=${GITHUB_HEAD_REF##*/}
+          echo "$branch_merge"
+          echo "$branch_original"
           echo "$version_name1"
           echo "$version_name2"
           #echo "Tagging release with tag $version_name"
-          git tag $version_name $branch_original
+          git tag $version_name2 $branch_original
           git push origin --tags
       
       #- name: Create service_account.json
