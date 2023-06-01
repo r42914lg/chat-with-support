@@ -33,14 +33,10 @@ jobs:
           
       - name: Tag Release
         run: |
-          n1=${GITHUB_HEAD_REF}
-          n2=${GITHUB_HEAD_REF}
-          version_name1=${GITHUB_HEAD_REF##*/}
-          version_name2=${GITHUB_REF##*/}
-          echo "$n1"
-          echo "$n2"
-          echo "$version_name1"
-          echo "$version_name2"
+          full=${GITHUB_REF}
+          version_name=${GITHUB_REF##*/}
+          echo "$full"
+          echo "$version_name"
           #echo "Tagging release with tag $version_name"
           #git tag $version_name
           #git push origin --tags
