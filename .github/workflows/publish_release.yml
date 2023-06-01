@@ -21,7 +21,7 @@ jobs:
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 29
-          script: ./gradlew connectedCheck
+          script: ./gradlew -Pandroid.testInstrumentationRunnerArguments.class=com.r42914lg.chatsandbox.ExampleInstrumentedTest connectedCheck
           
   tag:
     name: Build release artifacts
