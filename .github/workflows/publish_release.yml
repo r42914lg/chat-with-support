@@ -42,7 +42,7 @@ jobs:
           echo "$version_name1"
           echo "$version_name2"
           #echo "Tagging release with tag $version_name"
-          git tag $version_name2 $branch_original
+          git tag $version_name2 $branch_merge
           git push origin --tags
       
       #- name: Create service_account.json
