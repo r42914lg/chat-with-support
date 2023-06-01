@@ -1,9 +1,11 @@
 name: Build_sign_deploy_on_release
 
 on:
-  push:
+  pull_request:
     branches:
       - 'release'
+      
+permissions: write-all
 
 env:
   KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
@@ -12,7 +14,7 @@ env:
 
 jobs:
   build_apk_aab:
-    #if: startsWith(github.ref, 'releaze/') == true
+    if: startsWith(github.head_ref, 'releaze/') == true
     name: Build release artifacts
     runs-on: ubuntu-latest
     steps:
@@ -20,41 +22,41 @@ jobs:
       - uses: actions/setup-java@v1
         with: {java-version: 11}
         
-      #- name: Checkout keystore repo
-      #  uses: actions/checkout@v2
-      #  with:
-      #    repository: ${{ secrets.KEYSTORE_GIT_REPOSITORY }}
-      #    token: ${{ secrets.KEYSTORE_ACCESS_TOKEN }}
-      #    path: app/keystore
+      - name: Checkout keystore repo
+        uses: actions/checkout@v2
+        with:
+          repository: ${{ secrets.KEYSTORE_GIT_REPOSITORY }}
+          token: ${{ secrets.KEYSTORE_ACCESS_TOKEN }}
+          path: app/keystore
           
-      #- name: Build release AAB
-      #  run:
-      #    ./gradlew bundleRelease
+      - name: Build release AAB
+        run:
+          ./gradlew bundleRelease
           
       - name: Tag Release
         run: |
-          full=${GITHUB_REF}
-          version_name=${GITHUB_REF##*/}
-          echo "$full"
-          echo "$version_name"
+          branch_name=${GITHUB_HEAD_REF}
+          version_name=${GITHUB_HEAD_REF##*/}
+          echo "Head branch name: $branch_name"
+          echo "Head version: $version_name"
           #echo "Tagging release with tag $version_name"
           #git tag $version_name
           #git push origin --tags
       
-      #- name: Create service_account.json
-      #  run: echo '${{ secrets.SERVICE_ACCOUNT }}' > service_account.json
+      - name: Create service_account.json
+        run: echo '${{ secrets.SERVICE_ACCOUNT }}' > service_account.json
       
-      #- name: Upload AAB Bundle
-      #  uses: actions/upload-artifact@v2
-      #  with:
-      #    name: app-release.aab
-      #    path: app/build/outputs/bundle/release/app-release.aab
+      - name: Upload AAB Bundle
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-release.aab
+          path: app/build/outputs/bundle/release/app-release.aab
           
-      #- name: Deploy to Internal track
-      #  uses: r0adkll/upload-google-play@v1
-      #  with:
-      #    serviceAccountJson: service_account.json
-      #    packageName: com.r42914lg.chatsandbox
-      #    releaseFiles: app/build/outputs/bundle/release/app-release.aab
-      #    track: internal
-      #    status: draft
+      - name: Deploy to Internal track
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJson: service_account.json
+          packageName: com.r42914lg.chatsandbox
+          releaseFiles: app/build/outputs/bundle/release/app-release.aab
+          track: internal
+          status: draft
